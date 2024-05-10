@@ -419,6 +419,7 @@ lassosum.pipeline <- function(cor, phenotypic.genetic.Var.Cov.matrix,Var.phenoty
     ref.extract <- rep(FALSE, nrow(ref.bim))
     ref.extract[m.ref$ref.extract][m.common$order] <- TRUE
 
+
     # code to adapt corr3 for SNPs commun to all summary 
     # statistics and test data set only
     
@@ -436,7 +437,11 @@ lassosum.pipeline <- function(cor, phenotypic.genetic.Var.Cov.matrix,Var.phenoty
 
     nbr_SNPs <- nrow(ss3.1.commun)
     if (length(dm)==3){
-      if (nbr_SNPs != dm[3]) stop("Number of SNP specific genetic covariance matrices does not equal the number of SNPs in common to all traits")
+      message("phenotypic.genetic.Var.Cov.matrix presenting 3 dimensions, we assume that it was matched by position beforehand.")
+      #Keep the matched positions in phenotypic.genetic.Var.Cov.matrix
+      phenotypic.genetic.Var.Cov.matrix <- phenotypic.genetic.Var.Cov.matrix[,,ref.extract]
+      
+      #if (nbr_SNPs != dm[3]) stop("Number of SNP specific genetic covariance matrices does not equal the number of SNPs in common to all traits")
       inv_Sb = array(apply(phenotypic.genetic.Var.Cov.matrix,3,function(mat) chol2inv(chol(mat))),c(dm[1],dm[2],nbr_SNPs))
     } else {# length(dm)==2, on copie la même matrice nbr_SNPs fois
       Sigma_b <- phenotypic.genetic.Var.Cov.matrix/nbr_SNPs
