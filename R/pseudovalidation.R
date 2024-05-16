@@ -60,9 +60,9 @@ pseudovalidation <- function(bfile, beta, cor, sd=NULL,
       weight <- 1/sd
       weight[!is.finite(weight)] <- 0
       scaled_beta <- as.matrix(Diagonal(x = weight) %*% beta[,,trait])
-      PRS[,,trait] <- pgs(bfile, keep=keep, weights = scaled_beta)
+      PRS[,,trait] <- pgs(bfile, weights = scaled_beta, keep=parsed$keep, extract=parsed$extract, ...)
     }else{
-      PRS[,,trait] <- pgs(bfile, keep=keep, weights = beta[,,trait])
+      PRS[,,trait] <- pgs(bfile, weights = beta[,,trait], keep=parsed$keep, extract=parsed$extract, ...)
     }
   }
   
